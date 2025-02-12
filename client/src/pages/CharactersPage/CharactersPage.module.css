@@ -1,0 +1,210 @@
+/* CharactersPage.module.css */
+:root {
+  /* Couleurs WoW */
+  --wow-gold: #c79c6e; /* Titres et éléments importants */
+  --wow-brown: #4d3803; /* Fond sombre */
+  --wow-dark-brown: #2c1810; /* Fond très sombre */
+  --wow-light-brown: #6b4423; /* Accents */
+  --wow-text: #f0e6d2; /* Texte parchemin */
+  --wow-background: #1a1a1a; /* Fond principal */
+  --wow-border-gold: #8b6914; /* Bordures dorées */
+}
+
+.charactersContainer {
+  background-color: var(--wow-background);
+  color: var(--wow-text);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+  background-image: linear-gradient(
+    rgba(50, 30, 10, 0.8),
+    rgba(30, 20, 10, 0.9)
+  );
+}
+
+.charactersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--wow-border-gold);
+}
+
+.charactersTitle {
+  color: var(--wow-gold);
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(199, 156, 110, 0.5);
+  font-family: "Morpheus", "Arial", sans-serif;
+}
+
+.charactersActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.addButton,
+.filterButton {
+  background-color: var(--wow-light-brown);
+  color: var(--wow-text);
+  border: 2px solid var(--wow-gold);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.filterButton {
+  margin: 0;
+}
+.addButton {
+  text-align: center;
+}
+
+.addButton:hover,
+.filterButton:hover {
+  background-color: var(--wow-gold);
+  color: var(--wow-background);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.characterForm {
+  background-color: var(--wow-dark-brown);
+  border: 2px solid var(--wow-border-gold);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.characterForm input,
+.characterForm select {
+  background-color: var(--wow-brown);
+  color: var(--wow-text);
+  border: 2px solid var(--wow-border-gold);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.characterForm input:focus,
+.characterForm select:focus {
+  outline: none;
+  border-color: var(--wow-gold);
+  box-shadow: 0 0 10px rgba(199, 156, 110, 0.5);
+}
+
+.characterForm button {
+  background-color: var(--wow-gold);
+  color: var(--wow-background);
+  border: 2px solid var(--wow-border-gold);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.characterForm button:hover {
+  background-color: var(--wow-border-gold);
+  transform: scale(1.05);
+}
+
+.charactersList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.charactersCard {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--wow-dark-brown);
+  border: 2px solid var(--wow-border-gold);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: var(--wow-text);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.characterCardActions {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  gap: 1rem;
+}
+
+.charactersCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+.charactersCard h3 {
+  color: var(--wow-gold);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.editButton,
+.deleteButton {
+  background-color: var(--wow-light-brown);
+  color: var(--wow-text);
+  border: 2px solid var(--wow-gold);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none; /* Pour le lien de modification */
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editButton:hover,
+.deleteButton:hover {
+  background-color: var(--wow-gold);
+  color: var(--wow-background);
+  transform: scale(1.05);
+}
+.editButton {
+  width: 100%;
+}
+
+.deleteButton {
+  background-color: #8b0000;
+  border-color: #ff0000;
+}
+
+.deleteButton:hover {
+  background-color: #ff0000;
+}
+
+.noCharactersMessage {
+  color: var(--wow-gold);
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .charactersList {
+    grid-template-columns: 1fr;
+  }
+
+  .charactersHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .charactersActions {
+    margin-top: 1rem;
+    flex-direction: column;
+  }
+}

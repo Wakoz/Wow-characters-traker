@@ -115,7 +115,7 @@ class CharacterRepository {
       }
 
       await connection.execute(
-        `UPDATE character 
+        `UPDATE \`character\` 
         SET name = ?, class_id = ?, level = ?, server_id = ? 
         WHERE id = ? AND user_id = ?
         `,
