@@ -1,11 +1,21 @@
 create table user (
   id int unsigned primary key auto_increment not null,
   email varchar(255) not null unique,
-  password varchar(255) not null
+  password varchar(255) not null,
   created_at timestamp default current_timestamp
 );
 
-create table character (
+create table class (
+  id int unsigned primary key auto_increment not null,
+  name varchar(255) not null unique
+);
+
+create table server (
+  id int unsigned primary key auto_increment not null,
+  name varchar(255) not null unique
+);
+
+create table `character` (
   id int unsigned primary key auto_increment not null,
   name varchar(255) not null,
   class_id int unsigned not null,
@@ -13,20 +23,10 @@ create table character (
   server_id int unsigned not null,
   user_id int unsigned not null,
   created_at timestamp default current_timestamp,
-  foreign key(user_id) references user(id)
-  foreign key(class_id) references class(id)
+  foreign key(user_id) references user(id) on delete cascade,
+  foreign key(class_id) references class(id),
   foreign key(server_id) references server(id)
 );
-
-create table class (
-  id int unsigned primary key auto_increment not null,
-  name varchar(255) not null unique
-)
-
-create table server (
-  id int unsigned primary key auto_increment not null,
-  name varchar(255) not null unique
-)
 
 insert into class (name)
 values
@@ -55,5 +55,3 @@ values
   ('Stormrage'),
   ('Tichondrius'),
   ('Zul''jin');
-
-insert into `
