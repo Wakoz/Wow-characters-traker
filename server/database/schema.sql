@@ -2,20 +2,58 @@ create table user (
   id int unsigned primary key auto_increment not null,
   email varchar(255) not null unique,
   password varchar(255) not null
+  created_at timestamp default current_timestamp
 );
 
-create table item (
+create table character (
   id int unsigned primary key auto_increment not null,
-  title varchar(255) not null,
+  name varchar(255) not null,
+  class_id int unsigned not null,
+  level int unsigned not null check(level >= 1 and level <= 80),
+  server_id int unsigned not null,
   user_id int unsigned not null,
+  created_at timestamp default current_timestamp,
   foreign key(user_id) references user(id)
+  foreign key(class_id) references class(id)
+  foreign key(server_id) references server(id)
 );
 
-insert into user(id, email, password)
-values
-  (1, "jdoe@mail.com", "123456");
+create table class (
+  id int unsigned primary key auto_increment not null,
+  name varchar(255) not null unique
+)
 
-insert into item(id, title, user_id)
+create table server (
+  id int unsigned primary key auto_increment not null,
+  name varchar(255) not null unique
+)
+
+insert into class (name)
 values
-  (1, "Stuff", 1),
-  (2, "Doodads", 1);
+  ('Warrior'),
+  ('Paladin'),
+  ('Hunter'),
+  ('Rogue'),
+  ('Priest'),
+  ('Death Knight'),
+  ('Shaman'),
+  ('Mage'),
+  ('Warlock'),
+  ('Monk'),
+  ('Druid'),
+  ('Demon Hunter'),
+  ('Evoker');
+
+insert into server (name)
+values
+  ('Archimonde'),
+  ('Hyjal'),
+  ('Ysondre'),
+  ('Dalaran'),
+  ('Chant Eternel'),
+  ('Sargeras'),
+  ('Stormrage'),
+  ('Tichondrius'),
+  ('Zul''jin');
+
+insert into `
