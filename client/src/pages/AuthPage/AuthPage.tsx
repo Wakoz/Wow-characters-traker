@@ -1,7 +1,6 @@
-// src/pages/auth/index.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/auth";
+import { loginUser, registerUser } from "../../services/auth";
 import styles from "./Auth.module.css";
 
 export default function AuthPage() {
@@ -14,12 +13,19 @@ export default function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     try {
-      await loginUser({ email, password });
+      if (isLogin) {
+        await loginUser({ email, password });
+      } else {
+        await registerUser({ email, password });
+      }
       navigate("/characters");
     } catch (err) {
-      setError("Email ou mot de passe incorrect");
+      setError(
+        isLogin
+          ? "Email ou mot de passe incorrect"
+          : "Erreur lors de l'inscription",
+      );
     }
   };
 
@@ -53,6 +59,18 @@ export default function AuthPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+          />
+        </div>
+
+        <div className={styles.authInputGroup}>
+          <label htmlFor="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={8}
           />
         </div>
 

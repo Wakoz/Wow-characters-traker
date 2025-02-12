@@ -28,6 +28,25 @@ function removeCookie(name: string) {
   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
 }
 
+function getUserFromCookie(): AuthResponse["user"] | null {
+  const userCookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("user="));
+
+  if (!userCookie) return null;
+
+  try {
+    const userString = decodeURIComponent(userCookie.split("=")[1]);
+    return JSON.parse(userString);
+  } catch {
+    return null;
+  }
+}
+
+export function getCurrentUser(): AuthResponse["user"] | null {
+  return getUserFromCookie();
+}
+
 export async function loginUser(credentials: AuthCredentials) {
   const response = await fetch(ENDPOINTS.AUTH.LOGIN, {
     method: "POST",
@@ -41,6 +60,9 @@ export async function loginUser(credentials: AuthCredentials) {
 
   const data = (await response.json()) as AuthResponse;
   setCookie("token", data.token, 1); // expire dans 1 jour
+
+  setCookie("user", JSON.stringify(data.user), 1);
+
   return data;
 }
 
@@ -57,11 +79,15 @@ export async function registerUser(credentials: AuthCredentials) {
 
   const data = (await response.json()) as AuthResponse;
   setCookie("token", data.token, 1);
+
+  setCookie("user", JSON.stringify(data.user), 1);
+
   return data;
 }
 
 export function logout() {
   removeCookie("token");
+  removeCookie("user");
 }
 
 export function isAuthenticated(): boolean {

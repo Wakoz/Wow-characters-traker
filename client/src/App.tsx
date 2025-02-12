@@ -6,7 +6,7 @@ function App() {
     <div>
       {/* Ici on pourra mettre le header, la navigation, etc. */}
       <main>
-        <Outlet /> {/* Les routes enfants seront rendues ici */}
+        <Outlet />
       </main>
     </div>
   );

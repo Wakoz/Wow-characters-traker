@@ -13,6 +13,8 @@ import {
 import App from "./App";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import { isAuthenticated } from "./services/auth";
+import CharactersPage from "./pages/CharactersPage/CharactersPage";
+import CharacterFormPage from "./pages/CharactersPage/CharactersEditPage";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
@@ -39,13 +41,21 @@ const router = createBrowserRouter([
       },
       {
         path: "characters",
-        element: <div>Characters Page (à venir)</div>,
+        element: <CharactersPage />,
         loader: protectedLoader,
         errorElement: <Navigate to="/auth" />,
       },
       {
+        path: "/characters/new",
+        element: <CharacterFormPage />,
+      },
+      {
+        path: "/characters/edit/:id",
+        element: <CharacterFormPage />,
+      },
+      {
         path: "/",
-        element: <div>Characters Page (à venir)</div>,
+        element: <Navigate to="/characters" replace />,
       },
     ],
   },
