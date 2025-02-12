@@ -28,7 +28,7 @@ const register: RequestHandler = async (req, res, next) => {
       { expiresIn: "1h" },
     );
 
-    res.status(201).json(userWithoutPassword);
+    res.status(201).json({ user: userWithoutPassword, token });
   } catch (err) {
     next(err);
   }
@@ -52,7 +52,7 @@ const login: RequestHandler = async (req, res, next) => {
     );
 
     const { password: _, ...userWithoutPassword } = user;
-    res.json(userWithoutPassword);
+    res.json({ user: userWithoutPassword, token });
   } catch (err) {
     next(err);
   }

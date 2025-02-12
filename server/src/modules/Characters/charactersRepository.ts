@@ -28,7 +28,10 @@ class CharacterRepository {
       );
 
       const [serverRows] = await connection.execute<Rows>(
-        "select id from server where id = ?",
+        `SELECT id 
+        FROM server 
+        WHERE id = ?
+        `,
         [character.server_id],
       );
 
@@ -37,7 +40,7 @@ class CharacterRepository {
       }
 
       const [result] = await connection.execute<Result>(
-        `INSERT INTO character 
+        `INSERT INTO \`character\` 
           (name, class_id, level, server_id, user_id) 
         VALUES 
           (?, ?, ?, ?, ?)
@@ -64,7 +67,7 @@ class CharacterRepository {
   async read(id: number) {
     const [rows] = await databaseClient.execute<Rows>(
       `SELECT c.*, cl.name as class_name, s.name as server_name 
-      FROM character c 
+      FROM \`character\` c 
       INNER JOIN class cl on c.class_id = cl.id 
       INNER JOIN server s on c.server_id = s.id 
       WHERE c.id = ?
@@ -77,7 +80,7 @@ class CharacterRepository {
   async readAll(userID: number) {
     const [rows] = await databaseClient.execute<Rows>(
       `SELECT * 
-      FROM character 
+      FROM \`character\` 
       WHERE user_id = ?
       `,
       [userID],
@@ -138,7 +141,7 @@ class CharacterRepository {
   async delete(id: number, userID: number) {
     const [result] = await databaseClient.execute<Result>(
       `DELETE 
-      FROM character 
+      FROM \`character\` 
       WHERE id = ? AND user_id = ?
       `,
       [id, userID],

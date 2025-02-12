@@ -11,23 +11,23 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 // Auth Router
-router.post("/auth/register", authActions.register);
-router.post("/auth/login", authActions.login);
+router.post("/api/auth/register", authActions.register);
+router.post("/api/auth/login", authActions.login);
 
 // Class Router
-router.get("/classes", classWowActions.browse);
-router.get("/classes/:id", classWowActions.read);
+router.get("/api/classes", classWowActions.browse);
+router.get("/api/classes/:id", classWowActions.read);
 
 // Server Router
-router.get("/servers", serverWowActions.browse);
-router.get("/servers/:id", serverWowActions.read);
+router.get("/api/servers", serverWowActions.browse);
+router.get("/api/servers/:id", serverWowActions.read);
 
 // Characters Router
-router.get("/characters", verifyToken, charactersActions.browse);
-router.get("/characters/:id", verifyToken, charactersActions.read);
-router.post("/characters", verifyToken, charactersActions.add);
-router.put("/characters/:id", verifyToken, charactersActions.update);
-router.delete("/characters/:id", verifyToken, charactersActions.remove);
+router.get("/api/characters", verifyToken, charactersActions.browse);
+router.get("/api/characters/:id", verifyToken, charactersActions.read);
+router.post("/api/characters", verifyToken, charactersActions.add);
+router.put("/api/characters/:id", verifyToken, charactersActions.update);
+router.delete("/api/characters/:id", verifyToken, charactersActions.remove);
 
 /* ************************************************************************* */
 
