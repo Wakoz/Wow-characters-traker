@@ -1,0 +1,425 @@
+[data-theme="dark"] {
+  --primary: #f8b700; /* Or WoW */
+  --primary-hover: #c69200;
+  --primary-focus: rgba(248, 183, 0, 0.25);
+  --background-color: #15171e; /* Fond sombre comme WoW */
+  --card-background-color: #1f2937;
+  --card-sectionning-background-color: #252e3d;
+  --modal-overlay-background-color: rgba(0, 0, 0, 0.8);
+  --color: #ebdec2; /* Texte légèrement doré */
+  --h1-color: #f8b700;
+  --h2-color: #f8b700;
+  --h3-color: #f8b700;
+  --h4-color: #f8b700;
+  --h5-color: #f8b700;
+  --h6-color: #f8b700;
+  --muted-color: #a89368;
+  --mark-background-color: #a89368;
+
+  /* Inputs et boutons */
+  --form-element-background-color: #252e3d;
+  --form-element-border-color: #3d434f;
+  --form-element-color: #ebdec2;
+  --form-element-placeholder-color: #8e8e8e;
+  --form-element-active-background-color: #252e3d;
+  --form-element-active-border-color: #f8b700;
+
+  /* Boutons */
+  --button-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --button-hover-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* Style spécifique pour l'auth */
+article.auth-container {
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 41, 55, 0.95),
+    rgba(17, 24, 39, 0.95)
+  );
+  border: 1px solid #3d434f;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+/* Animation pour les boutons */
+button:not([aria-busy]):hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Style des headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Semplicita Pro", "Open Sans", Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Style des inputs */
+input,
+select,
+textarea {
+  background-color: rgba(37, 46, 61, 0.8) !important;
+  border: 1px solid #3d434f !important;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 10px rgba(248, 183, 0, 0.2) !important;
+}
+
+/* Style pour les modales */
+dialog {
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 41, 55, 0.98),
+    rgba(17, 24, 39, 0.98)
+  );
+  border: 1px solid #3d434f;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Ajout de bordures dorées stylisées */
+.wow-border {
+  position: relative;
+  padding: 2px;
+}
+
+.wow-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid var(--primary);
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(248, 183, 0, 0.1) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Styles pour la page des personnages */
+.characters-page {
+  padding: 2rem 1rem;
+}
+
+.wow-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.wow-page-header h1 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.character-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.character-actions button,
+.character-actions a[role="button"] {
+  margin: 0;
+}
+
+/* Cards de chargement et d'erreur */
+.loading-card,
+.error-card {
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 41, 55, 0.95),
+    rgba(17, 24, 39, 0.95)
+  );
+}
+
+.loading-card {
+  border: 1px solid var(--primary);
+}
+
+.error-card {
+  border: 1px solid var(--del-color);
+  color: var(--del-color);
+}
+
+/* Modal de filtres */
+dialog article {
+  margin: 0;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+dialog header {
+  margin: -2rem -2rem 2rem -2rem;
+  padding: 1.5rem 2rem;
+  background-color: rgba(31, 41, 55, 0.95);
+  border-bottom: 1px solid var(--primary);
+}
+
+dialog header h3 {
+  margin: 0;
+  color: var(--primary);
+}
+
+dialog footer {
+  margin: 2rem -2rem -2rem -2rem;
+  padding: 1.5rem 2rem;
+  background-color: rgba(31, 41, 55, 0.95);
+  border-top: 1px solid var(--muted-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+dialog footer button {
+  margin: 0;
+}
+/* Grille de personnages */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* État vide */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 41, 55, 0.95),
+    rgba(17, 24, 39, 0.95)
+  );
+}
+
+/* Carte de personnage */
+.character-card {
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 41, 55, 0.95),
+    rgba(17, 24, 39, 0.95)
+  );
+  border-width: 2px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.character-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+
+.character-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* En-tête de la carte */
+.character-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.character-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.character-level {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  background-color: rgba(248, 183, 0, 0.1);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Détails du personnage */
+.character-details {
+  margin: 1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.character-details p {
+  margin: 0.5rem 0;
+  opacity: 0.9;
+}
+
+.character-card footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.character-card footer button {
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.character-action-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.edit-btn {
+  background-color: rgba(248, 183, 0, 0.2);
+  color: var(--primary);
+  border-color: rgba(248, 183, 0, 0.5);
+}
+
+.edit-btn:hover {
+  background-color: rgba(248, 183, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.delete-btn {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: red;
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.delete-btn:hover {
+  background-color: rgba(255, 0, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .wow-header .container-fluid {
+    padding: 0;
+  }
+
+  .mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--background-color);
+  }
+
+  .mobile-menu-toggle {
+    order: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+  }
+
+  .wow-logo {
+    order: 2;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--primary);
+  }
+
+  .mobile-menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary);
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    z-index: 100;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-menu.is-open {
+    left: 0;
+  }
+
+  .nav-menu li {
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  .nav-menu a,
+  .nav-menu button {
+    font-size: 1.5rem;
+    color: var(--color);
+    text-decoration: none;
+  }
+
+  /* Animation du burger quand ouvert */
+  .mobile-menu-toggle.is-open span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .mobile-menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.is-open span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav,
+  .mobile-menu-toggle {
+    display: none;
+  }
+
+  .wow-header .nav-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+  }
+}

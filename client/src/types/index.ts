@@ -1,34 +1,35 @@
-export interface IUser {
+export interface User {
   id: number;
   email: string;
-  createdAt: Date;
 }
 
-export interface ICharacter {
+export interface Character {
   id: number;
   name: string;
-  class: WoWClass;
+  class_id: number;
   level: number;
-  server: Server;
-  userId: number;
+  server_id: number;
+  user_id: number;
+  class_name?: string;
+  server_name?: string;
 }
 
-export enum WoWClass {
-  WARRIOR = "Warrior",
-  PALADIN = "Paladin",
-  HUNTER = "Hunter",
-  ROGUE = "Rogue",
-  PRIEST = "Priest",
-  MAGE = "Mage",
-  WARLOCK = "Warlock",
-  DRUID = "Druid",
-  SHAMAN = "Shaman",
-  DEATH_KNIGHT = "Death Knight",
+export interface WowClass {
+  id: number;
+  name: string;
 }
 
-export enum Server {
-  ARCHIMONDE = "Archimonde",
-  SYLVANAS = "Sylvanas",
-  HYJAL = "Hyjal",
-  ILLIDAN = "Illidan",
+export interface WowServer {
+  id: number;
+  name: string;
+}
+
+export interface AuthCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
 }

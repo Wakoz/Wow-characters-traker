@@ -1,23 +1,27 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../../services/auth";
-import styles from "./Auth.module.css";
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(true); // Pour switcher entre login et register
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
+
     try {
       if (isLogin) {
-        await loginUser({ email, password });
+        await loginUser(credentials);
       } else {
-        await registerUser({ email, password });
+        await registerUser(credentials);
       }
       navigate("/characters");
     } catch (err) {
@@ -26,60 +30,134 @@ export default function AuthPage() {
           ? "Email ou mot de passe incorrect"
           : "Erreur lors de l'inscription",
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div className={styles.authContainer}>
-      <h1 className={styles.authTitle}>Wow Characters Tracker</h1>
+    <main
+      className="container"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: "400px" }}>
+        <article
+          style={{
+            padding: "2rem",
+            backgroundColor: "#1f2937",
+            border: "2px solid #f8b700",
+          }}
+        >
+          <header style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <h1
+              style={{
+                color: "#f8b700",
+                fontSize: "2rem",
+                marginBottom: "2rem",
+              }}
+            >
+              WOW
+              <br />
+              CHARACTERS
+              <br />
+              TRACKER
+            </h1>
 
-      <div className={styles.authTabs}>
-        <button
-          type="button"
-          className={isLogin ? styles.authButton : ""}
-          onClick={() => setIsLogin(true)}
-        >
-          Connexion
-        </button>
-        <button
-          type="button"
-          className={!isLogin ? styles.authButton : ""}
-          onClick={() => setIsLogin(false)}
-        >
-          Inscription
-        </button>
+            <div className="grid" style={{ gap: "1rem" }}>
+              <button
+                type="button"
+                onClick={() => setIsLogin(true)}
+                className={isLogin ? "primary" : "secondary outline"}
+                style={{ margin: 0 }}
+              >
+                Connexion
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsLogin(false)}
+                className={!isLogin ? "primary" : "secondary outline"}
+                style={{ margin: 0 }}
+              >
+                Inscription
+              </button>
+            </div>
+          </header>
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label style={{ marginBottom: "0.5rem" }}>
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="exemple@email.com"
+                  value={credentials.email}
+                  onChange={handleChange}
+                  required
+                  style={{ backgroundColor: "#374151" }}
+                />
+              </label>
+            </div>
+
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label style={{ marginBottom: "0.5rem" }}>
+                Mot de passe
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Votre mot de passe"
+                  value={credentials.password}
+                  onChange={handleChange}
+                  required
+                  minLength={8}
+                  style={{ backgroundColor: "#374151" }}
+                />
+              </label>
+            </div>
+
+            {error && (
+              <p
+                style={{
+                  color: "#ff4444",
+                  textAlign: "center",
+                  margin: "1rem 0",
+                }}
+              >
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="primary"
+              aria-busy={isLoading}
+              disabled={isLoading}
+              style={{
+                width: "100%",
+                backgroundColor: "#f8b700",
+                border: "none",
+                marginTop: "1rem",
+              }}
+            >
+              {isLogin ? "Se connecter" : "S'inscrire"}
+            </button>
+          </form>
+        </article>
       </div>
-
-      <form className={styles.authForm} onSubmit={handleSubmit}>
-        <div className={styles.authInputGroup}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className={styles.authInputGroup}>
-          <label htmlFor="password">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
-
-        {error && <p className={styles.authError}>{error}</p>}
-
-        <button className={styles.authButton} type="submit">
-          {isLogin ? "Se connecter" : "S'inscrire"}
-        </button>
-      </form>
-    </div>
+    </main>
   );
 }
