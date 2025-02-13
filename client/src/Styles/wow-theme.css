@@ -93,6 +93,14 @@ dialog {
   padding: 2px;
 }
 
+.wow-logo {
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 1.5rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+
 .wow-border::before {
   content: "";
   position: absolute;
@@ -137,6 +145,9 @@ dialog {
 .character-actions button,
 .character-actions a[role="button"] {
   margin: 0;
+  color: var(--primary);
+  background-color: var(--primary-focus);
+  border-color: var(--primary);
 }
 
 /* Cards de chargement et d'erreur */
@@ -331,15 +342,16 @@ dialog footer button {
   }
 
   .mobile-nav {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "burger logo";
     align-items: center;
     padding: 1rem;
     background-color: var(--background-color);
   }
 
   .mobile-menu-toggle {
-    order: 1;
+    grid-area: burger;
     background: none;
     border: none;
     cursor: pointer;
@@ -348,7 +360,8 @@ dialog footer button {
   }
 
   .wow-logo {
-    order: 2;
+    grid-area: logo;
+    justify-self: center;
     font-size: 1.2rem;
     text-decoration: none;
     color: var(--primary);
@@ -416,10 +429,33 @@ dialog footer button {
     display: none;
   }
 
-  .wow-header .nav-menu {
-    display: flex;
-    justify-content: flex-end;
+  .wow-header .container-fluid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 1rem;
+  }
+
+  .wow-header .nav-menu {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+    position: static;
+    background: none;
+    height: auto;
+    width: auto;
+  }
+
+  .nav-menu li {
+    margin: 0;
+  }
+
+  .nav-menu a,
+  .nav-menu button {
+    font-size: 1rem;
+    color: var(--color);
+    text-decoration: none;
   }
 }

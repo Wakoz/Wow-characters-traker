@@ -77,7 +77,8 @@ export default function CharactersPage() {
       <div className="wow-page-header">
         <h1>Mes personnages</h1>
         <div className="character-actions">
-          <Link to="/characters/new" className="primary">
+          {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+          <Link to="/characters/new" role="button" className="primary">
             + Nouveau personnage
           </Link>
           <button

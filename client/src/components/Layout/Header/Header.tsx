@@ -24,22 +24,20 @@ export default function Header() {
 
   return (
     <header className="wow-header">
-      <nav className="container-fluid">
-        <div className="mobile-nav">
-          <button
-            type="button"
-            className={`mobile-menu-toggle ${isMenuOpen ? "is-open" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-          <Link to="/" className="wow-logo">
-            WoW Characters Tracker
-          </Link>
-        </div>
+      <nav className="header-grid">
+        <button
+          type="button"
+          className={`mobile-menu-toggle ${isMenuOpen ? "is-open" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <Link to="/" className="wow-logo">
+          WoW Characters Tracker
+        </Link>
 
         {currentUser && (
           <ul className={`nav-menu ${isMenuOpen ? "is-open" : ""}`}>
