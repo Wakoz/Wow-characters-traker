@@ -1,4 +1,5 @@
 [data-theme="dark"] {
+  /* Mêmes variables qu'avant */
   --primary: #f8b700; /* Or WoW */
   --primary-hover: #c69200;
   --primary-focus: rgba(248, 183, 0, 0.25);
@@ -41,10 +42,80 @@ article.auth-container {
   backdrop-filter: blur(10px);
 }
 
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.auth-container-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-title {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(248, 183, 0, 0.2);
+}
+
+.auth-toggle-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.auth-toggle {
+  margin: 0;
+}
+
+.auth-form {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  width: 100%;
+  background-color: var(--form-element-background-color);
+}
+
+.auth-error {
+  color: #ff4444;
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background-color: rgba(255, 68, 68, 0.1);
+  border-radius: 4px;
+}
+
+.auth-submit {
+  width: 100%;
+  background-color: var(--primary);
+  border: none;
+  margin-top: 1rem;
+}
+
 /* Animation pour les boutons */
+button:not([aria-busy]) {
+  transition: transform 0.2s ease;
+}
+
 button:not([aria-busy]):hover {
   transform: scale(1.05);
-  transition: transform 0.2s ease;
 }
 
 /* Style des headings */
@@ -203,6 +274,7 @@ dialog footer {
 dialog footer button {
   margin: 0;
 }
+
 /* Grille de personnages */
 .character-grid {
   display: grid;
@@ -220,19 +292,21 @@ dialog footer button {
     rgba(31, 41, 55, 0.95),
     rgba(17, 24, 39, 0.95)
   );
+  border: 2px solid var(--primary);
 }
 
-/* Carte de personnage */
+/* Modifications pour les cartes de personnage */
 .character-card {
   background: linear-gradient(
-    to bottom,
-    rgba(31, 41, 55, 0.95),
-    rgba(17, 24, 39, 0.95)
+    135deg,
+    rgba(31, 41, 55, 0.97),
+    rgba(17, 24, 39, 0.98)
   );
-  border-width: 2px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid var(--primary);
   position: relative;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
 }
 
 .character-card::before {
@@ -242,17 +316,41 @@ dialog footer button {
   left: 0;
   right: 0;
   height: 3px;
-  background-color: currentColor;
-  opacity: 0.5;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.character-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(45deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(-45deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(135deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(-135deg, var(--primary) 0%, transparent 2%);
+  background-position: top left, top right, bottom left, bottom right;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0.3;
 }
 
 .character-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(248, 183, 0, 0.2);
+}
+
+.character-card:hover::before {
+  opacity: 1;
 }
 
 /* En-tête de la carte */
 .character-info {
+  position: relative;
+  padding: 0.5rem;
+  background: linear-gradient(90deg, rgba(248, 183, 0, 0.1), transparent 50%);
+  border-left: 3px solid var(--primary);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -261,27 +359,39 @@ dialog footer button {
 .character-info h3 {
   margin: 0;
   font-size: 1.5rem;
+  color: var(--primary);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(248, 183, 0, 0.3);
 }
 
 .character-level {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  background-color: rgba(248, 183, 0, 0.1);
+  background: linear-gradient(
+    45deg,
+    rgba(248, 183, 0, 0.2),
+    rgba(248, 183, 0, 0.1)
+  );
+  border: 1px solid rgba(248, 183, 0, 0.3);
+  border-radius: 3px;
   font-size: 0.875rem;
+  color: var(--primary);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   margin-top: 0.25rem;
 }
 
 /* Détails du personnage */
 .character-details {
   margin: 1rem 0;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 3px solid rgba(248, 183, 0, 0.3);
 }
 
 .character-details p {
   margin: 0.5rem 0;
+  color: #ebdec2;
+  font-size: 0.95rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   opacity: 0.9;
 }
 
@@ -289,15 +399,9 @@ dialog footer button {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.character-card footer button {
-  margin: 0;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(248, 183, 0, 0.2);
 }
 
 .character-action-btn {
@@ -306,6 +410,7 @@ dialog footer button {
   margin: 0;
   font-size: 0.875rem;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 0.3s ease;
   border: 1px solid transparent;
@@ -313,32 +418,110 @@ dialog footer button {
 }
 
 .edit-btn {
-  background-color: rgba(248, 183, 0, 0.2);
+  background: linear-gradient(
+    45deg,
+    rgba(248, 183, 0, 0.1),
+    rgba(248, 183, 0, 0.2)
+  );
+  border-color: rgba(248, 183, 0, 0.4);
   color: var(--primary);
-  border-color: rgba(248, 183, 0, 0.5);
-}
-
-.edit-btn:hover {
-  background-color: rgba(248, 183, 0, 0.3);
-  transform: scale(1.05);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .delete-btn {
-  background-color: rgba(255, 0, 0, 0.2);
-  color: red;
-  border-color: rgba(255, 0, 0, 0.5);
+  background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.2));
+  border-color: rgba(255, 0, 0, 0.4);
+  color: #ff4444;
+  text-align: center;
 }
 
+.edit-btn:hover,
 .delete-btn:hover {
-  background-color: rgba(255, 0, 0, 0.3);
-  transform: scale(1.05);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.2);
+}
+
+.grid {
+  margin-bottom: 2rem;
+}
+
+.grid label {
+  margin-bottom: 1.5rem;
+}
+
+.grid input,
+.grid select {
+  background: linear-gradient(
+    135deg,
+    rgba(31, 41, 55, 0.97),
+    rgba(17, 24, 39, 0.98)
+  );
+  border: 2px solid var(--primary);
+  color: var(--color);
+}
+
+.grid input:focus,
+.grid select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(248, 183, 0, 0.2);
+}
+
+/* Style amélioré pour le modal de filtres */
+dialog article::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(45deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(-45deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(135deg, var(--primary) 0%, transparent 2%),
+    linear-gradient(-135deg, var(--primary) 0%, transparent 2%);
+  background-position: top left, top right, bottom left, bottom right;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+dialog header h3 {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(248, 183, 0, 0.3);
+}
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-buttons button {
+  flex: 1;
 }
 
 @media (max-width: 768px) {
   .wow-header .container-fluid {
     padding: 0;
+  }
+
+  .auth-container-wrapper {
+    max-width: 450px;
+  }
+
+  .auth-container {
+    padding: 2.5rem;
+  }
+
+  .auth-title {
+    font-size: 2.5rem;
+  }
+
+  .auth-toggle-buttons {
+    max-width: 350px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .form-buttons button {
+    width: 100%;
   }
 
   .mobile-nav {
@@ -348,6 +531,9 @@ dialog footer button {
     align-items: center;
     padding: 1rem;
     background-color: var(--background-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
 
   .mobile-menu-toggle {
@@ -382,7 +568,8 @@ dialog footer button {
     left: -100%;
     width: 100%;
     height: 100vh;
-    background-color: var(--background-color);
+    background-color: rgba(21, 23, 30, 0.98);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -407,6 +594,9 @@ dialog footer button {
     font-size: 1.5rem;
     color: var(--color);
     text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 1rem;
   }
 
   /* Animation du burger quand ouvert */
@@ -420,6 +610,24 @@ dialog footer button {
 
   .mobile-menu-toggle.is-open span:nth-child(3) {
     transform: rotate(45deg) translate(-5px, -6px);
+  }
+
+  /* Ajustement de la grille sur mobile */
+  .character-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Ajustement des actions sur mobile */
+  .character-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .character-actions button,
+  .character-actions a[role="button"] {
+    width: 100%;
+    text-align: center;
   }
 }
 
@@ -455,7 +663,23 @@ dialog footer button {
   .nav-menu a,
   .nav-menu button {
     font-size: 1rem;
-    color: var(--color);
+    color: var(--primary);
     text-decoration: none;
+  }
+
+  /* Ajustement de la grille sur desktop */
+  .character-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  .auth-container {
+    padding: 1.5rem;
   }
 }

@@ -78,7 +78,7 @@ export default function CharacterFormPage() {
   if (error) return <div role="alert">{error}</div>;
 
   return (
-    <div className="container">
+    <div className="container" style={{ padding: "2rem" }}>
       <h1>{id ? "Modifier le personnage" : "Créer un personnage"}</h1>
       <CharacterForm
         initialData={character}

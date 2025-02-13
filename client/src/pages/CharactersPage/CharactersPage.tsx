@@ -108,78 +108,82 @@ export default function CharactersPage() {
 
       {isFilterModalOpen && (
         <dialog open>
-          <article>
+          <article className="character-card">
             <header>
               <h3>Filtres</h3>
               <button
                 type="button"
                 aria-label="Close"
-                className="close"
+                className="character-action-btn delete-btn"
                 onClick={() => setIsFilterModalOpen(false)}
-              />
+              >
+                ✕
+              </button>
             </header>
 
-            <label>
-              Classe
-              <select
-                name="class"
-                value={filters.class}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    class: Number(e.target.value),
-                  }))
-                }
-              >
-                <option value={0}>Toutes les classes</option>
-                {classes.map((cls) => (
-                  <option key={cls.id} value={cls.id}>
-                    {cls.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <div className="grid">
+            <div className="character-details">
               <label>
-                Niveau minimum
-                <input
-                  type="number"
-                  name="minLevel"
-                  value={filters.minLevel}
+                Classe
+                <select
+                  name="class"
+                  value={filters.class}
                   onChange={(e) =>
                     setFilters((prev) => ({
                       ...prev,
-                      minLevel: Number(e.target.value),
+                      class: Number(e.target.value),
                     }))
                   }
-                  min={1}
-                  max={80}
-                />
+                >
+                  <option value={0}>Toutes les classes</option>
+                  {classes.map((cls) => (
+                    <option key={cls.id} value={cls.id}>
+                      {cls.name}
+                    </option>
+                  ))}
+                </select>
               </label>
 
-              <label>
-                Niveau maximum
-                <input
-                  type="number"
-                  name="maxLevel"
-                  value={filters.maxLevel}
-                  onChange={(e) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      maxLevel: Number(e.target.value),
-                    }))
-                  }
-                  min={1}
-                  max={80}
-                />
-              </label>
+              <div className="grid" style={{ marginTop: "1rem" }}>
+                <label>
+                  Niveau minimum
+                  <input
+                    type="number"
+                    name="minLevel"
+                    value={filters.minLevel}
+                    onChange={(e) =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        minLevel: Number(e.target.value),
+                      }))
+                    }
+                    min={1}
+                    max={80}
+                  />
+                </label>
+
+                <label>
+                  Niveau maximum
+                  <input
+                    type="number"
+                    name="maxLevel"
+                    value={filters.maxLevel}
+                    onChange={(e) =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        maxLevel: Number(e.target.value),
+                      }))
+                    }
+                    min={1}
+                    max={80}
+                  />
+                </label>
+              </div>
             </div>
 
             <footer>
               <button
                 type="button"
-                className="secondary outline"
+                className="character-action-btn delete-btn"
                 onClick={() => {
                   setFilters({
                     class: 0,
@@ -190,7 +194,11 @@ export default function CharactersPage() {
               >
                 Réinitialiser
               </button>
-              <button type="button" onClick={() => setIsFilterModalOpen(false)}>
+              <button
+                type="button"
+                className="character-action-btn edit-btn"
+                onClick={() => setIsFilterModalOpen(false)}
+              >
                 Appliquer
               </button>
             </footer>
