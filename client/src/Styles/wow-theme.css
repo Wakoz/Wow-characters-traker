@@ -204,7 +204,7 @@ dialog {
 }
 
 .wow-page-header h1 {
-  margin: 0;
+  margin: 1rem;
   color: var(--primary);
 }
 
