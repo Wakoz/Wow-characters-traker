@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { WowClass, WowServer, Character } from "../../../types";
+import { Link } from "react-router-dom";
 
 // Type pour les données du formulaire
 export interface CharacterFormData {
@@ -14,6 +15,7 @@ interface CharacterFormProps {
   onSubmit: (data: CharacterFormData) => void;
   classes: WowClass[];
   servers: WowServer[];
+  onCancel?: () => void;
 }
 
 export default function CharacterForm({
@@ -46,69 +48,76 @@ export default function CharacterForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid">
-        <label>
-          Nom
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </label>
+      <article className="character-card">
+        <div className="grid">
+          <label>
+            Nom
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </label>
 
-        <label>
-          Classe
-          <select
-            name="class_id"
-            value={formData.class_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Sélectionner une classe</option>
-            {classes.map((cls) => (
-              <option key={cls.id} value={cls.id}>
-                {cls.name}
-              </option>
-            ))}
-          </select>
-        </label>
+          <label>
+            Classe
+            <select
+              name="class_id"
+              value={formData.class_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Sélectionner une classe</option>
+              {classes.map((cls) => (
+                <option key={cls.id} value={cls.id}>
+                  {cls.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
-        <label>
-          Niveau
-          <input
-            type="number"
-            name="level"
-            value={formData.level}
-            onChange={handleChange}
-            min="1"
-            max="80"
-            required
-          />
-        </label>
+          <label>
+            Niveau
+            <input
+              type="number"
+              name="level"
+              value={formData.level}
+              onChange={handleChange}
+              min="1"
+              max="80"
+              required
+            />
+          </label>
 
-        <label>
-          Serveur
-          <select
-            name="server_id"
-            value={formData.server_id}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Sélectionner un serveur</option>
-            {servers.map((server) => (
-              <option key={server.id} value={server.id}>
-                {server.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+          <label>
+            Serveur
+            <select
+              name="server_id"
+              value={formData.server_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Sélectionner un serveur</option>
+              {servers.map((server) => (
+                <option key={server.id} value={server.id}>
+                  {server.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-      <button type="submit" className="primary">
-        {initialData ? "Modifier" : "Créer"}
-      </button>
+        <div className="form-buttons">
+          <Link to="/characters" className="character-action-btn delete-btn">
+            Annuler
+          </Link>
+          <button type="submit" className="character-action-btn edit-btn">
+            {initialData ? "Modifier" : "Créer"}
+          </button>
+        </div>
+      </article>
     </form>
   );
 }

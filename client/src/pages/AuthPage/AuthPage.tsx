@@ -44,32 +44,11 @@ export default function AuthPage() {
   };
 
   return (
-    <main
-      className="container"
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2rem",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "400px" }}>
-        <article
-          style={{
-            padding: "2rem",
-            backgroundColor: "#1f2937",
-            border: "2px solid #f8b700",
-          }}
-        >
-          <header style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <h1
-              style={{
-                color: "#f8b700",
-                fontSize: "2rem",
-                marginBottom: "2rem",
-              }}
-            >
+    <main className="auth-page">
+      <div className="auth-container-wrapper">
+        <article className="auth-container">
+          <header className="auth-header">
+            <h1 className="auth-title">
               WOW
               <br />
               CHARACTERS
@@ -77,29 +56,27 @@ export default function AuthPage() {
               TRACKER
             </h1>
 
-            <div className="grid" style={{ gap: "1rem" }}>
+            <div className="auth-toggle-buttons">
               <button
                 type="button"
                 onClick={() => setIsLogin(true)}
-                className={isLogin ? "primary" : "secondary outline"}
-                style={{ margin: 0 }}
+                className={`auth-toggle ${isLogin ? "primary" : "secondary outline"}`}
               >
                 Connexion
               </button>
               <button
                 type="button"
                 onClick={() => setIsLogin(false)}
-                className={!isLogin ? "primary" : "secondary outline"}
-                style={{ margin: 0 }}
+                className={`auth-toggle ${!isLogin ? "primary" : "secondary outline"}`}
               >
                 Inscription
               </button>
             </div>
           </header>
 
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: "1.5rem" }}>
-              <label style={{ marginBottom: "0.5rem" }}>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label>
                 Email
                 <input
                   type="email"
@@ -108,13 +85,12 @@ export default function AuthPage() {
                   value={credentials.email}
                   onChange={handleChange}
                   required
-                  style={{ backgroundColor: "#374151" }}
                 />
               </label>
             </div>
 
-            <div style={{ marginBottom: "1.5rem" }}>
-              <label style={{ marginBottom: "0.5rem" }}>
+            <div className="form-group">
+              <label>
                 Mot de passe
                 <input
                   type="password"
@@ -124,34 +100,17 @@ export default function AuthPage() {
                   onChange={handleChange}
                   required
                   minLength={8}
-                  style={{ backgroundColor: "#374151" }}
                 />
               </label>
             </div>
 
-            {error && (
-              <p
-                style={{
-                  color: "#ff4444",
-                  textAlign: "center",
-                  margin: "1rem 0",
-                }}
-              >
-                {error}
-              </p>
-            )}
+            {error && <p className="auth-error">{error}</p>}
 
             <button
               type="submit"
-              className="primary"
+              className="auth-submit primary"
               aria-busy={isLoading}
               disabled={isLoading}
-              style={{
-                width: "100%",
-                backgroundColor: "#f8b700",
-                border: "none",
-                marginTop: "1rem",
-              }}
             >
               {isLogin ? "Se connecter" : "S'inscrire"}
             </button>
