@@ -6,6 +6,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+import "./Styles/wow-theme.css";
 
 /* ************************************************************************* */
 
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <Navigate to="/characters" replace />,
+        element: <Navigate to="/characters/" replace />,
       },
     ],
   },

@@ -3,28 +3,23 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   createCharacter,
-  updateCharacter,
   getCharacterById,
+  updateCharacter,
 } from "../../services/characters";
-import { getAllClasses, type WowClass } from "../../services/classes";
-import { getAllServers, type WowServer } from "../../services/servers";
-import { getCurrentUser } from "../../services/auth";
-import styles from "./CharactersEditPage.module.css";
+import { getAllClasses } from "../../services/classes";
+import { getAllServers } from "../../services/servers";
+import type { Character, WowClass, WowServer } from "../../types/index";
+import CharacterForm, {
+  type CharacterFormData,
+} from "../../components/Character/CharacterForm/CharacterForm";
 
 export default function CharacterFormPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const isEditing = !!id;
-
-  const [character, setCharacter] = useState({
-    name: "",
-    class_id: 0,
-    level: 1,
-    server_id: 0,
-  });
-
   const [classes, setClasses] = useState<WowClass[]>([]);
   const [servers, setServers] = useState<WowServer[]>([]);
+  const [character, setCharacter] = useState<Character | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -38,132 +33,59 @@ export default function CharacterFormPage() {
         setClasses(classesData);
         setServers(serversData);
 
-        if (isEditing) {
+        if (id) {
           const characterData = await getCharacterById(Number(id));
           setCharacter(characterData);
         }
       } catch (err) {
         setError("Erreur lors du chargement des données");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [id, isEditing]);
+  }, [id]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const currentUser = getCurrentUser();
-
-    if (!currentUser) {
-      setError("Utilisateur non connecté");
-      return;
-    }
-
+  const handleSubmit = async (formData: CharacterFormData) => {
     try {
       const characterData = {
-        ...character,
-        user_id: currentUser.id,
+        name: formData.name,
+        class_id: Number(formData.class_id),
+        level: Number(formData.level),
+        server_id: Number(formData.server_id),
       };
 
-      if (isEditing) {
+      if (id) {
         await updateCharacter({
           ...characterData,
           id: Number(id),
+          user_id: character?.user_id as number,
         });
       } else {
-        await createCharacter(characterData);
+        await createCharacter({
+          ...characterData,
+          user_id: character?.user_id as number,
+        });
       }
-
       navigate("/characters");
     } catch (err) {
       setError("Erreur lors de l'enregistrement du personnage");
     }
   };
 
+  if (isLoading) return <div>Chargement...</div>;
+  if (error) return <div role="alert">{error}</div>;
+
   return (
-    <div className={styles.formContainer}>
-      <h1>{isEditing ? "Modifier un personnage" : "Créer un personnage"}</h1>
-
-      {error && <div className={styles.error}>{error}</div>}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nom du personnage"
-          value={character.name}
-          onChange={(e) =>
-            setCharacter({
-              ...character,
-              name: e.target.value,
-            })
-          }
-          required
-        />
-
-        <select
-          value={character.class_id}
-          onChange={(e) =>
-            setCharacter({
-              ...character,
-              class_id: Number(e.target.value),
-            })
-          }
-          required
-        >
-          <option value="">Sélectionnez une classe</option>
-          {classes.map((cls) => (
-            <option key={cls.id} value={cls.id}>
-              {cls.name}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={character.server_id}
-          onChange={(e) =>
-            setCharacter({
-              ...character,
-              server_id: Number(e.target.value),
-            })
-          }
-          required
-        >
-          <option value="">Sélectionnez un serveur</option>
-          {servers.map((server) => (
-            <option key={server.id} value={server.id}>
-              {server.name}
-            </option>
-          ))}
-        </select>
-
-        <input
-          type="number"
-          placeholder="Niveau"
-          min="1"
-          max="80"
-          value={character.level}
-          onChange={(e) =>
-            setCharacter({
-              ...character,
-              level: Number(e.target.value),
-            })
-          }
-          required
-        />
-
-        <div className={styles.EditButtonGroup}>
-          <button className={styles.buttonEditPage} type="submit">
-            {isEditing ? "Modifier" : "Créer"}
-          </button>
-          <button
-            className={styles.buttonEditPage}
-            type="button"
-            onClick={() => navigate("/characters")}
-          >
-            Annuler
-          </button>
-        </div>
-      </form>
+    <div className="container">
+      <h1>{id ? "Modifier le personnage" : "Créer un personnage"}</h1>
+      <CharacterForm
+        initialData={character}
+        onSubmit={handleSubmit}
+        classes={classes}
+        servers={servers}
+      />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { ENDPOINTS } from "./config";
 import { getToken } from "./auth";
 
-interface Character {
+export interface Character {
   id: number;
   name: string;
   class_id: number;

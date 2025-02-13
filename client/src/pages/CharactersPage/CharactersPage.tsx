@@ -1,25 +1,17 @@
 import { useState, useEffect } from "react";
 import { getAllCharacters, deleteCharacter } from "../../services/characters";
-import { getAllClasses, type WowClass } from "../../services/classes";
-import { getAllServers, type WowServer } from "../../services/servers";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./CharactersPage.module.css";
-
-type Character = {
-  id: number;
-  name: string;
-  class_id: number;
-  level: number;
-  server_id: number;
-  class_name?: string;
-  server_name?: string;
-};
+import { getAllClasses } from "../../services/classes";
+import { getAllServers } from "../../services/servers";
+import CharacterList from "../../components/Character/CharacterList/CharacterList";
+import { Link } from "react-router-dom";
+import type { Character, WowClass, WowServer } from "../../types/index";
 
 export default function CharactersPage() {
-  const navigate = useNavigate();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [classes, setClasses] = useState<WowClass[]>([]);
   const [servers, setServers] = useState<WowServer[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const [filters, setFilters] = useState({
     class: 0,
     minLevel: 0,
@@ -27,198 +19,183 @@ export default function CharactersPage() {
   });
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  const filteredCharacters = characters.filter((character) => {
-    const classMatch =
-      filters.class === 0 || character.class_id === filters.class;
-    const minLevelMatch = character.level >= filters.minLevel;
-    const maxLevelMatch = character.level <= filters.maxLevel;
-
-    return classMatch && minLevelMatch && maxLevelMatch;
-  });
-
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [charactersData, classesData, serversData] = await Promise.all([
-          getAllCharacters(),
-          getAllClasses(),
-          getAllServers(),
-        ]);
-
-        // Enrichir les personnages avec les noms de classe et de serveur
-        const enrichedCharacters = charactersData.map((character) => {
-          const characterClass = classesData.find(
-            (c) => c.id === character.class_id,
-          );
-          const characterServer = serversData.find(
-            (s) => s.id === character.server_id,
-          );
-
-          return {
-            ...character,
-            class_name: characterClass
-              ? characterClass.name
-              : "Classe inconnue",
-            server_name: characterServer
-              ? characterServer.name
-              : "Serveur inconnu",
-          };
-        });
-
-        setCharacters(enrichedCharacters);
-        setClasses(classesData);
-        setServers(serversData);
-      } catch (err) {
-        setError("Erreur lors du chargement des données");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
-  const handleDelete = async (characterId: number) => {
-    const confirmDelete = window.confirm(
-      "Voulez-vous vraiment supprimer ce personnage ?",
-    );
+  const fetchData = async () => {
+    try {
+      const [charactersData, classesData, serversData] = await Promise.all([
+        getAllCharacters(),
+        getAllClasses(),
+        getAllServers(),
+      ]);
 
-    if (!confirmDelete) return;
+      const enrichedCharacters = charactersData.map((character) => ({
+        ...character,
+        class_name:
+          classesData.find((c) => c.id === character.class_id)?.name ||
+          "Classe inconnue",
+        server_name:
+          serversData.find((s) => s.id === character.server_id)?.name ||
+          "Serveur inconnu",
+      }));
+
+      setCharacters(enrichedCharacters);
+      setClasses(classesData);
+      setServers(serversData);
+      setError("");
+    } catch (err) {
+      setError("Erreur lors du chargement des données");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (characterId: number) => {
+    if (!window.confirm("Voulez-vous vraiment supprimer ce personnage ?"))
+      return;
 
     try {
       await deleteCharacter(characterId);
-
-      const updatedCharacters = await getAllCharacters();
-      setCharacters(updatedCharacters);
-
-      setError("");
+      await fetchData();
     } catch (err) {
       setError("Erreur lors de la suppression du personnage");
     }
   };
 
-  const handleFilterChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: name === "class" ? Number(value) : Number(value),
-    }));
-  };
-
-  const resetFilters = () => {
-    setFilters({
-      class: 0,
-      minLevel: 0,
-      maxLevel: 80,
-    });
-  };
-
-  if (isLoading) return <div>Chargement...</div>;
-  if (error) return <div className={styles.charactersError}>{error}</div>;
+  const filteredCharacters = characters.filter((character) => {
+    const classMatch =
+      filters.class === 0 || character.class_id === filters.class;
+    const minLevelMatch = character.level >= filters.minLevel;
+    const maxLevelMatch = character.level <= filters.maxLevel;
+    return classMatch && minLevelMatch && maxLevelMatch;
+  });
 
   return (
-    <div className={styles.charactersContainer}>
-      <div className={styles.charactersHeader}>
-        <h1 className={styles.charactersTitle}>Mes personnages</h1>
-        <div className={styles.charactersActions}>
-          <Link to="/characters/new" className={styles.addButton}>
-            + Add
+    <div className="container characters-page">
+      <div className="wow-page-header">
+        <h1>Mes personnages</h1>
+        <div className="character-actions">
+          <Link to="/characters/new" className="primary">
+            + Nouveau personnage
           </Link>
           <button
             type="button"
-            className={styles.filterButton}
-            onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
+            onClick={() => setIsFilterModalOpen(true)}
+            className="outline"
           >
-            Filter ▼
+            Filtres
           </button>
         </div>
       </div>
 
-      {isFilterModalOpen && (
-        <div className={styles.filterModal}>
-          <div className={styles.filterContent}>
-            <select
-              name="class"
-              value={filters.class}
-              onChange={handleFilterChange}
-            >
-              <option value={0}>Toutes les classes</option>
-              {classes.map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  {cls.name}
-                </option>
-              ))}
-            </select>
+      {isLoading ? (
+        <article aria-busy="true" className="loading-card">
+          <p>Chargement de vos personnages...</p>
+        </article>
+      ) : error ? (
+        <article className="error-card">
+          <p>{error}</p>
+        </article>
+      ) : (
+        <CharacterList
+          characters={filteredCharacters}
+          onDelete={handleDelete}
+        />
+      )}
 
-            <div className={styles.levelFilters}>
-              <input
-                type="number"
-                name="minLevel"
-                placeholder="Niveau min"
-                value={filters.minLevel}
-                onChange={handleFilterChange}
-                min={1}
-                max={80}
+      {isFilterModalOpen && (
+        <dialog open>
+          <article>
+            <header>
+              <h3>Filtres</h3>
+              <button
+                type="button"
+                aria-label="Close"
+                className="close"
+                onClick={() => setIsFilterModalOpen(false)}
               />
-              <input
-                type="number"
-                name="maxLevel"
-                placeholder="Niveau max"
-                value={filters.maxLevel}
-                onChange={handleFilterChange}
-                min={1}
-                max={80}
-              />
+            </header>
+
+            <label>
+              Classe
+              <select
+                name="class"
+                value={filters.class}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    class: Number(e.target.value),
+                  }))
+                }
+              >
+                <option value={0}>Toutes les classes</option>
+                {classes.map((cls) => (
+                  <option key={cls.id} value={cls.id}>
+                    {cls.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="grid">
+              <label>
+                Niveau minimum
+                <input
+                  type="number"
+                  name="minLevel"
+                  value={filters.minLevel}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      minLevel: Number(e.target.value),
+                    }))
+                  }
+                  min={1}
+                  max={80}
+                />
+              </label>
+
+              <label>
+                Niveau maximum
+                <input
+                  type="number"
+                  name="maxLevel"
+                  value={filters.maxLevel}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      maxLevel: Number(e.target.value),
+                    }))
+                  }
+                  min={1}
+                  max={80}
+                />
+              </label>
             </div>
 
-            <div className={styles.filterActions}>
-              <button type="button" onClick={resetFilters}>
+            <footer>
+              <button
+                type="button"
+                className="secondary outline"
+                onClick={() => {
+                  setFilters({
+                    class: 0,
+                    minLevel: 0,
+                    maxLevel: 80,
+                  });
+                }}
+              >
                 Réinitialiser
               </button>
               <button type="button" onClick={() => setIsFilterModalOpen(false)}>
                 Appliquer
               </button>
-            </div>
-          </div>
-        </div>
+            </footer>
+          </article>
+        </dialog>
       )}
-
-      <div className={styles.charactersList}>
-        {filteredCharacters.map((character) => (
-          <div key={character.id} className={styles.charactersCard}>
-            <h3>{character.name}</h3>
-            <p>Niveau {character.level}</p>
-            <p>{character.class_name}</p>
-            <p>{character.server_name}</p>
-            <div className={styles.characterCardActions}>
-              <Link
-                to={`/characters/edit/${character.id}`}
-                className={styles.editButton}
-              >
-                Modifier
-              </Link>
-              <button
-                onClick={() => handleDelete(character.id)}
-                className={styles.deleteButton}
-                type="button"
-              >
-                Supprimer
-              </button>
-            </div>
-          </div>
-        ))}
-
-        {filteredCharacters.length === 0 && (
-          <p className={styles.noCharactersMessage}>
-            Aucun personnage ne correspond aux filtres sélectionnés.
-          </p>
-        )}
-      </div>
     </div>
   );
 }
