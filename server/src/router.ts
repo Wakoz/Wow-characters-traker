@@ -4,6 +4,7 @@ import charactersActions from "./modules/Characters/charactersActions";
 import classWowActions from "./modules/ClassWow/classWowActions";
 import serverWowActions from "./modules/ServerWow/serverWowActions";
 import verifyToken from "./modules/Auth/middleware";
+import validateAuth from "./modules/Auth/AuthValidation";
 
 const router = express.Router();
 
@@ -11,8 +12,12 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 // Auth Router
-router.post("/api/auth/register", authActions.register);
-router.post("/api/auth/login", authActions.login);
+router.post(
+  "/api/auth/register",
+  validateAuth("register"),
+  authActions.register,
+);
+router.post("/api/auth/login", validateAuth("login"), authActions.login);
 
 // Class Router
 router.get("/api/classes", classWowActions.browse);
