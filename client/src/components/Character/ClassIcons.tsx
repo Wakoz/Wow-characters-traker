@@ -14,6 +14,7 @@ const classColors = {
   Mage: "#69CCF0",
   Warlock: "#9482C9",
   Druid: "#FF7D0A",
+  "Demon Hunter": "#A330C9",
 } as const;
 
 export const getClassColor = (className: string): string => {
@@ -42,6 +43,48 @@ export default function ClassIcon({ className, size = 32 }: ClassIconProps) {
       <path
         fill={color}
         d="M28 16L22 10 16 4 10 10 4 16l6 6 6 6 6-6 6-6zm-12 4l-4-4 4-4 4 4-4 4z"
+      />
+    ),
+    Rogue: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    Priest: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    "Death Knight": (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    Shaman: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    Mage: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    Warlock: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
+      />
+    ),
+    Druid: (
+      <path
+        fill={color}
+        d="M16 4L8 12v8l8 8 8-8v-8L16 4zm0 4l4 4v4l-4 4-4-4v-4l4-4z"
       />
     ),
     // ... autres icônes de classe

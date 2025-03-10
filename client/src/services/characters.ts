@@ -1,17 +1,7 @@
 // services/characters.ts
 import { ENDPOINTS } from "./config";
 import { getToken } from "./auth";
-
-export interface Character {
-  id: number;
-  name: string;
-  class_id: number;
-  level: number;
-  server_id: number;
-  user_id: number;
-  class_name?: string;
-  server_name?: string;
-}
+import type { Character } from "../types";
 
 export async function getAllCharacters() {
   const token = getToken();
@@ -45,7 +35,7 @@ export async function getCharacterById(id: number) {
 }
 
 export async function createCharacter(
-  characterData: Omit<Character, "id" | "class_name" | "server_name">,
+  characterData: Omit<Character, "id" | "class_name" | "race_name" | "server_name">,
 ) {
   const token = getToken();
   const response = await fetch(ENDPOINTS.CHARACTERS.BASE, {

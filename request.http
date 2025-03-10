@@ -1,0 +1,20 @@
+POST http://localhost:3310/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "toto@toto.com",
+    "password":"1ezRsfq"
+}
+
+###
+
+POST http://localhost:3310/api/characters
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczOTM2NTcwNSwiZXhwIjoxNzM5MzY5MzA1fQ.pvJVE9w9n13ULHydm8O3NmyacUh9MOPD6mOXpKJ6yZ0
+
+{
+  "name": "Toto",
+  "class_id": 1,
+  "level": 10,
+  "server_id": 1
+}

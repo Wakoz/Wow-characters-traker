@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../../services/auth";
+import PasswordInput from "../../components/UI/PasswordInput/PasswordInput";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -11,24 +12,32 @@ export default function AuthPage() {
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setIsLoading(true);
 
     try {
       if (isLogin) {
         await loginUser(credentials);
+        setSuccess("Connexion réussie. Redirection...");
       } else {
         await registerUser(credentials);
+        setSuccess("Inscription réussie. Redirection...");
       }
-      navigate("/characters");
+      
+      // Délai pour afficher le message de succès avant la redirection
+      setTimeout(() => {
+        navigate("/Accueil");
+      }, 1000);
     } catch (err) {
       setError(
         isLogin
           ? "Email ou mot de passe incorrect"
-          : "Erreur lors de l'inscription",
+          : "Erreur lors de l'inscription"
       );
     } finally {
       setIsLoading(false);
@@ -92,19 +101,19 @@ export default function AuthPage() {
             <div className="form-group">
               <label>
                 Mot de passe
-                <input
-                  type="password"
+                <PasswordInput
                   name="password"
-                  placeholder="Votre mot de passe"
                   value={credentials.password}
                   onChange={handleChange}
                   required
                   minLength={8}
+                  placeholder="Votre mot de passe"
                 />
               </label>
             </div>
 
             {error && <p className="auth-error">{error}</p>}
+            {success && <p className="auth-success">{success}</p>}
 
             <button
               type="submit"

@@ -14,6 +14,7 @@ const verifyToken: RequestHandler = (req: AuthRequest, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
+    console.log("Token extrait:", token);
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       res.sendStatus(500);
@@ -22,7 +23,6 @@ const verifyToken: RequestHandler = (req: AuthRequest, res, next) => {
     const decoded = jwt.verify(token, jwtSecret) as {
       userId: number;
     };
-
     req.userId = decoded.userId;
     next();
   } catch (err) {

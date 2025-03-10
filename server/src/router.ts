@@ -5,6 +5,7 @@ import classWowActions from "./modules/ClassWow/classWowActions";
 import serverWowActions from "./modules/ServerWow/serverWowActions";
 import verifyToken from "./modules/Auth/middleware";
 import validateAuth from "./modules/Auth/AuthValidation";
+import raceWowActions from "./modules/RaceWow/raceWowActions";
 
 const router = express.Router();
 
@@ -33,6 +34,10 @@ router.get("/api/characters/:id", verifyToken, charactersActions.read);
 router.post("/api/characters", verifyToken, charactersActions.add);
 router.put("/api/characters/:id", verifyToken, charactersActions.update);
 router.delete("/api/characters/:id", verifyToken, charactersActions.remove);
+
+// Ajouter les routes pour les races
+router.get("/api/races", raceWowActions.browse);
+router.get("/api/races/:id", raceWowActions.read);
 
 /* ************************************************************************* */
 

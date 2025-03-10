@@ -1,4 +1,4 @@
-import type { Character } from "../../../services/characters";
+import type { Character } from "../../../types";
 import ClassIcon, { getClassColor } from "../ClassIcons";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,8 @@ export default function CharacterCard({
   onDelete,
 }: CharacterCardProps) {
   const classColor = getClassColor(character.class_name || "");
-
+  const faction = character.faction || "Neutre";
+  
   const handleDelete = () => {
     if (
       window.confirm(
@@ -24,7 +25,10 @@ export default function CharacterCard({
   };
 
   return (
-    <article className="character-card" style={{ borderColor: classColor }}>
+    <article 
+      className={`character-card ${faction.toLowerCase()}-card`} 
+      style={{ borderColor: classColor }}
+    >
       <header>
         <div className="character-info">
           <ClassIcon className={character.class_name || ""} size={40} />
@@ -36,8 +40,14 @@ export default function CharacterCard({
       </header>
 
       <div className="character-details">
-        <p>{character.class_name}</p>
-        <p>{character.server_name}</p>
+        <p>Race: {character.race_name}</p>
+        <p>Classe: {character.class_name}</p>
+        <p>Serveur: {character.server_name}</p>
+        <p>
+          <span className={`faction-badge ${faction.toLowerCase()}-badge`}>
+            Faction: {faction}
+          </span>
+        </p>
       </div>
 
       <footer>

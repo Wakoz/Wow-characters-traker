@@ -15,4 +15,7 @@ export const ENDPOINTS = {
   SERVERS: {
     BASE: `${API_URL}/api/servers`,
   },
+  RACES: {
+    BASE: `${API_URL}/api/races`,
+  },
 } as const;

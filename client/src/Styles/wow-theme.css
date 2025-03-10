@@ -1,685 +1,1238 @@
-[data-theme="dark"] {
-  /* Mêmes variables qu'avant */
-  --primary: #f8b700; /* Or WoW */
-  --primary-hover: #c69200;
-  --primary-focus: rgba(248, 183, 0, 0.25);
-  --background-color: #15171e; /* Fond sombre comme WoW */
-  --card-background-color: #1f2937;
-  --card-sectionning-background-color: #252e3d;
-  --modal-overlay-background-color: rgba(0, 0, 0, 0.8);
-  --color: #ebdec2; /* Texte légèrement doré */
-  --h1-color: #f8b700;
-  --h2-color: #f8b700;
-  --h3-color: #f8b700;
-  --h4-color: #f8b700;
-  --h5-color: #f8b700;
-  --h6-color: #f8b700;
-  --muted-color: #a89368;
-  --mark-background-color: #a89368;
+/**
+ * WoW Characters Tracker - Stylesheet
+ * 
+ * TABLE DES MATIÈRES:
+ * 1. Variables & Thème
+ * 2. Composants généraux (headings, inputs, buttons)
+ * 3. Layout & Header
+ * 4. Page d'authentification
+ * 5. Page des personnages
+ * 6. Cartes de personnage
+ * 7. Factions (Alliance/Horde)
+ * 8. Page d'accueil
+ * 9. Modales & Dialogs
+ * 10. Media queries
+ */
 
-  /* Inputs et boutons */
-  --form-element-background-color: #252e3d;
-  --form-element-border-color: #3d434f;
-  --form-element-color: #ebdec2;
-  --form-element-placeholder-color: #8e8e8e;
-  --form-element-active-background-color: #252e3d;
-  --form-element-active-border-color: #f8b700;
+/* ======================================
+   1. VARIABLES & THÈME
+   ====================================== */
 
-  /* Boutons */
-  --button-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  --button-hover-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-}
-
-/* Style spécifique pour l'auth */
-article.auth-container {
-  background: linear-gradient(
-    to bottom,
-    rgba(31, 41, 55, 0.95),
-    rgba(17, 24, 39, 0.95)
-  );
-  border: 1px solid #3d434f;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-}
-
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.auth-container-wrapper {
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-}
-
-.auth-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.auth-title {
-  color: var(--primary);
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(248, 183, 0, 0.2);
-}
-
-.auth-toggle-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin: 0 auto;
-  max-width: 300px;
-}
-
-.auth-toggle {
-  margin: 0;
-}
-
-.auth-form {
-  margin-top: 2rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group input {
-  width: 100%;
-  background-color: var(--form-element-background-color);
-}
-
-.auth-error {
-  color: #ff4444;
-  text-align: center;
-  margin: 1rem 0;
-  padding: 0.5rem;
-  background-color: rgba(255, 68, 68, 0.1);
-  border-radius: 4px;
-}
-
-.auth-submit {
-  width: 100%;
-  background-color: var(--primary);
-  border: none;
-  margin-top: 1rem;
-}
-
-/* Animation pour les boutons */
-button:not([aria-busy]) {
-  transition: transform 0.2s ease;
-}
-
-button:not([aria-busy]):hover {
-  transform: scale(1.05);
-}
-
-/* Style des headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Semplicita Pro", "Open Sans", Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* Style des inputs */
-input,
-select,
-textarea {
-  background-color: rgba(37, 46, 61, 0.8) !important;
-  border: 1px solid #3d434f !important;
-  transition: all 0.3s ease;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 10px rgba(248, 183, 0, 0.2) !important;
-}
-
-/* Style pour les modales */
-dialog {
-  background: linear-gradient(
-    to bottom,
-    rgba(31, 41, 55, 0.98),
-    rgba(17, 24, 39, 0.98)
-  );
-  border: 1px solid #3d434f;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-}
-
-/* Ajout de bordures dorées stylisées */
-.wow-border {
-  position: relative;
-  padding: 2px;
-}
-
-.wow-logo {
-  text-decoration: none;
-  color: var(--primary);
-  font-size: 1.5rem;
-  padding: 1rem;
-  margin: 1rem;
-}
-
-.wow-border::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 1px solid var(--primary);
-  background: linear-gradient(
-    45deg,
-    transparent 0%,
-    rgba(248, 183, 0, 0.1) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-/* Styles pour la page des personnages */
-.characters-page {
-  padding: 2rem 1rem;
-}
-
-.wow-page-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--primary);
-}
-
-.wow-page-header h1 {
-  margin: 1rem;
-  color: var(--primary);
-}
-
-.character-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.character-actions button,
-.character-actions a[role="button"] {
-  margin: 0;
-  color: var(--primary);
-  background-color: var(--primary-focus);
-  border-color: var(--primary);
-}
-
-/* Cards de chargement et d'erreur */
-.loading-card,
-.error-card {
-  padding: 2rem;
-  text-align: center;
-  background: linear-gradient(
-    to bottom,
-    rgba(31, 41, 55, 0.95),
-    rgba(17, 24, 39, 0.95)
-  );
-}
-
-.loading-card {
-  border: 1px solid var(--primary);
-}
-
-.error-card {
-  border: 1px solid var(--del-color);
-  color: var(--del-color);
-}
-
-/* Modal de filtres */
-dialog article {
-  margin: 0;
-  padding: 2rem;
-  max-width: 500px;
-}
-
-dialog header {
-  margin: -2rem -2rem 2rem -2rem;
-  padding: 1.5rem 2rem;
-  background-color: rgba(31, 41, 55, 0.95);
-  border-bottom: 1px solid var(--primary);
-}
-
-dialog header h3 {
-  margin: 0;
-  color: var(--primary);
-}
-
-dialog footer {
-  margin: 2rem -2rem -2rem -2rem;
-  padding: 1.5rem 2rem;
-  background-color: rgba(31, 41, 55, 0.95);
-  border-top: 1px solid var(--muted-color);
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-dialog footer button {
-  margin: 0;
-}
-
-/* Grille de personnages */
-.character-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-/* État vide */
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(31, 41, 55, 0.95),
-    rgba(17, 24, 39, 0.95)
-  );
-  border: 2px solid var(--primary);
-}
-
-/* Modifications pour les cartes de personnage */
-.character-card {
-  background: linear-gradient(
-    135deg,
-    rgba(31, 41, 55, 0.97),
-    rgba(17, 24, 39, 0.98)
-  );
-  border: 2px solid var(--primary);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding: 1.5rem;
-}
-
-.character-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.character-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(45deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(-45deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(135deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(-135deg, var(--primary) 0%, transparent 2%);
-  background-position: top left, top right, bottom left, bottom right;
-  background-size: 30px 30px;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  opacity: 0.3;
-}
-
-.character-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(248, 183, 0, 0.2);
-}
-
-.character-card:hover::before {
-  opacity: 1;
-}
-
-/* En-tête de la carte */
-.character-info {
-  position: relative;
-  padding: 0.5rem;
-  background: linear-gradient(90deg, rgba(248, 183, 0, 0.1), transparent 50%);
-  border-left: 3px solid var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.character-info h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--primary);
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(248, 183, 0, 0.3);
-}
-
-.character-level {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: linear-gradient(
-    45deg,
-    rgba(248, 183, 0, 0.2),
-    rgba(248, 183, 0, 0.1)
-  );
-  border: 1px solid rgba(248, 183, 0, 0.3);
-  border-radius: 3px;
-  font-size: 0.875rem;
-  color: var(--primary);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  margin-top: 0.25rem;
-}
-
-/* Détails du personnage */
-.character-details {
-  margin: 1rem 0;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-left: 3px solid rgba(248, 183, 0, 0.3);
-}
-
-.character-details p {
-  margin: 0.5rem 0;
-  color: #ebdec2;
-  font-size: 0.95rem;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  opacity: 0.9;
-}
-
-.character-card footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(248, 183, 0, 0.2);
-}
-
-.character-action-btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-
-.edit-btn {
-  background: linear-gradient(
-    45deg,
-    rgba(248, 183, 0, 0.1),
-    rgba(248, 183, 0, 0.2)
-  );
-  border-color: rgba(248, 183, 0, 0.4);
-  color: var(--primary);
-}
-
-.delete-btn {
-  background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.2));
-  border-color: rgba(255, 0, 0, 0.4);
-  color: #ff4444;
-  text-align: center;
-}
-
-.edit-btn:hover,
-.delete-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  filter: brightness(1.2);
-}
-
-.grid {
-  margin-bottom: 2rem;
-}
-
-.grid label {
-  margin-bottom: 1.5rem;
-}
-
-.grid input,
-.grid select {
-  background: linear-gradient(
-    135deg,
-    rgba(31, 41, 55, 0.97),
-    rgba(17, 24, 39, 0.98)
-  );
-  border: 2px solid var(--primary);
-  color: var(--color);
-}
-
-.grid input:focus,
-.grid select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 15px rgba(248, 183, 0, 0.2);
-}
-
-/* Style amélioré pour le modal de filtres */
-dialog article::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(45deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(-45deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(135deg, var(--primary) 0%, transparent 2%),
-    linear-gradient(-135deg, var(--primary) 0%, transparent 2%);
-  background-position: top left, top right, bottom left, bottom right;
-  background-size: 30px 30px;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  opacity: 0.3;
-}
-
-dialog header h3 {
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(248, 183, 0, 0.3);
-}
-.form-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.form-buttons button {
-  flex: 1;
-}
-
-@media (max-width: 768px) {
-  .wow-header .container-fluid {
-    padding: 0;
+   :root {
+    /* Palette principale */
+    --wow-gold: #f8b700;
+    --wow-gold-hover: #c69200;
+    --wow-gold-light: rgba(248, 183, 0, 0.1);
+    --wow-gold-medium: rgba(248, 183, 0, 0.3);
+    --wow-gold-focus: rgba(248, 183, 0, 0.25);
+    
+    /* Palette des factions */
+    --alliance-blue: #0078ff;
+    --alliance-blue-light: rgba(0, 120, 255, 0.1);
+    --alliance-blue-medium: rgba(0, 120, 255, 0.2);
+    --alliance-blue-border: rgba(0, 120, 255, 0.4);
+    
+    --horde-red: #b30000;
+    --horde-red-light: rgba(179, 0, 0, 0.1);
+    --horde-red-medium: rgba(179, 0, 0, 0.2);
+    --horde-red-border: rgba(179, 0, 0, 0.4);
+    
+    /* Palette neutre */
+    --neutral-gray: #888888;
+    --neutral-gray-light: rgba(150, 150, 150, 0.1);
+    --neutral-gray-medium: rgba(150, 150, 150, 0.2);
+    --neutral-gray-border: rgba(150, 150, 150, 0.3);
+    
+    /* Effets communs */
+    --card-gradient: linear-gradient(135deg, rgba(31, 41, 55, 0.97), rgba(17, 24, 39, 0.98));
+    --corner-decoration: linear-gradient(45deg, var(--wow-gold) 0%, transparent 2%),
+      linear-gradient(-45deg, var(--wow-gold) 0%, transparent 2%),
+      linear-gradient(135deg, var(--wow-gold) 0%, transparent 2%),
+      linear-gradient(-135deg, var(--wow-gold) 0%, transparent 2%);
+    --main-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(248, 183, 0, 0.2);
+    --main-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    --gold-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(248, 183, 0, 0.3);
+    
+    /* Couleurs des classes WoW */
+    --warrior-color: #C79C6E;
+    --paladin-color: #F58CBA;
+    --hunter-color: #ABD473;
+    --rogue-color: #FFF569;
+    --priest-color: #FFFFFF;
+    --deathknight-color: #C41F3B;
+    --shaman-color: #0070DE;
+    --mage-color: #69CCF0;
+    --warlock-color: #9482C9;
+    --monk-color: #00FF96;
+    --druid-color: #FF7D0A;
+    --demonhunter-color: #A330C9;
+    --evoker-color: #33937F;
   }
-
-  .auth-container-wrapper {
-    max-width: 450px;
+  
+  [data-theme="dark"] {
+    --primary: var(--wow-gold);
+    --primary-hover: var(--wow-gold-hover);
+    --primary-focus: var(--wow-gold-focus);
+    --background-color: #15171e;
+    --card-background-color: #1f2937;
+    --card-sectionning-background-color: #252e3d;
+    --modal-overlay-background-color: rgba(0, 0, 0, 0.8);
+    --color: #ebdec2;
+    --h1-color: var(--wow-gold);
+    --h2-color: var(--wow-gold);
+    --h3-color: var(--wow-gold);
+    --h4-color: var(--wow-gold);
+    --h5-color: var(--wow-gold);
+    --h6-color: var(--wow-gold);
+    --muted-color: #a89368;
+    --mark-background-color: #a89368;
+  
+    /* Inputs et boutons */
+    --form-element-background-color: #252e3d;
+    --form-element-border-color: #3d434f;
+    --form-element-color: #ebdec2;
+    --form-element-placeholder-color: #8e8e8e;
+    --form-element-active-background-color: #252e3d;
+    --form-element-active-border-color: var(--wow-gold);
+  
+    /* Boutons */
+    --button-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    --button-hover-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   }
-
-  .auth-container {
-    padding: 2.5rem;
+  
+  /* ======================================
+     2. COMPOSANTS GÉNÉRAUX
+     ====================================== */
+  
+  /* Style des headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Semplicita Pro", "Open Sans", Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: var(--main-text-shadow);
   }
-
-  .auth-title {
-    font-size: 2.5rem;
+  
+  /* Style des inputs */
+  input, select, textarea {
+    background-color: rgba(37, 46, 61, 0.8) !important;
+    border: 1px solid #3d434f !important;
+    transition: all 0.3s ease;
   }
-
-  .auth-toggle-buttons {
-    max-width: 350px;
+  
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 10px rgba(248, 183, 0, 0.2) !important;
   }
-
-  .form-buttons {
-    flex-direction: column;
+  
+  /* Animation pour les boutons */
+  button:not([aria-busy]) {
+    transition: transform 0.2s ease;
   }
-
-  .form-buttons button {
-    width: 100%;
+  
+  button:not([aria-busy]):hover {
+    transform: scale(1.05);
   }
-
-  .mobile-nav {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas: "burger logo";
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--background-color);
-    position: sticky;
+  
+  /* Bordures stylisées */
+  .wow-border {
+    position: relative;
+    padding: 2px;
+  }
+  
+  .wow-border::before {
+    content: "";
+    position: absolute;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid var(--primary);
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      var(--wow-gold-light) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
-
-  .mobile-menu-toggle {
-    grid-area: burger;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    z-index: 1000;
-  }
-
-  .wow-logo {
-    grid-area: logo;
-    justify-self: center;
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: var(--primary);
-  }
-
-  .mobile-menu-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--primary);
-    margin: 5px 0;
-    transition: 0.4s;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(21, 23, 30, 0.98);
-    backdrop-filter: blur(10px);
+  
+  /* ======================================
+     3. LAYOUT & HEADER
+     ====================================== */
+  
+  .wow-layout {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+  }
+  
+  .wow-layout main {
+    flex: 1;
+  }
+  
+  .header-grid {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    transition: 0.3s;
-    z-index: 100;
+    padding: 0 1rem;
+  }
+  
+  .wow-logo {
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 1.5rem;
+    padding: 1rem;
+    font-weight: bold;
+  }
+  
+  .wow-footer {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--muted-color);
+  }
+  
+  /* Style de navigation */
+  .nav-menu {
+    display: flex;
+    list-style: none;
     margin: 0;
     padding: 0;
   }
-
-  .nav-menu.is-open {
-    left: 0;
-  }
-
+  
   .nav-menu li {
-    margin: 1rem 0;
-    text-align: center;
+    margin: 0 1rem;
   }
-
-  .nav-menu a,
-  .nav-menu button {
-    font-size: 1.5rem;
-    color: var(--color);
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    padding: 1rem;
-  }
-
-  /* Animation du burger quand ouvert */
-  .mobile-menu-toggle.is-open span:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
-
-  .mobile-menu-toggle.is-open span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .mobile-menu-toggle.is-open span:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-
-  /* Ajustement de la grille sur mobile */
-  .character-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  /* Ajustement des actions sur mobile */
-  .character-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .character-actions button,
-  .character-actions a[role="button"] {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-@media (min-width: 769px) {
-  .mobile-nav,
-  .mobile-menu-toggle {
-    display: none;
-  }
-
-  .wow-header .container-fluid {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .wow-header .nav-menu {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    justify-content: end;
-    align-items: center;
-    gap: 1rem;
-    position: static;
-    background: none;
-    height: auto;
-    width: auto;
-  }
-
-  .nav-menu li {
-    margin: 0;
-  }
-
-  .nav-menu a,
-  .nav-menu button {
-    font-size: 1rem;
+  
+  .nav-menu a, .nav-menu button {
     color: var(--primary);
     text-decoration: none;
+    transition: color 0.3s ease;
   }
-
-  /* Ajustement de la grille sur desktop */
+  
+  .nav-menu a:hover, .nav-menu button:hover {
+    color: var(--primary-hover);
+  }
+  
+  /* Styles pour le bouton de déconnexion */
+  .logout-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 68, 68, 0.1);
+    border: 1px solid rgba(255, 68, 68, 0.4);
+    color: #ff4444;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: rgba(255, 68, 68, 0.2);
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+  }
+  
+  .logout-icon {
+    font-size: 1.2rem;
+  }
+  
+  /* ======================================
+     4. PAGE D'AUTHENTIFICATION
+     ====================================== */
+  
+  .auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .auth-container-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  article.auth-container {
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 41, 55, 0.95),
+      rgba(17, 24, 39, 0.95)
+    );
+    border: 1px solid #3d434f;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+  }
+  
+  .auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .auth-title {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: var(--gold-text-shadow);
+  }
+  
+  .auth-toggle-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 0 auto;
+    max-width: 300px;
+  }
+  
+  .auth-toggle {
+    margin: 0;
+  }
+  
+  .auth-form {
+    margin-top: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group input {
+    width: 100%;
+    background-color: var(--form-element-background-color);
+  }
+  
+  .auth-error {
+    color: #ff4444;
+    text-align: center;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background-color: rgba(255, 68, 68, 0.1);
+    border-radius: 4px;
+  }
+  
+  .auth-success {
+    color: #4CAF50;
+    text-align: center;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 4px;
+  }
+  
+  .auth-submit {
+    width: 100%;
+    background-color: var(--primary);
+    border: none;
+    margin-top: 1rem;
+  }
+  
+  /* ======================================
+     5. PAGE DES PERSONNAGES
+     ====================================== */
+  
+  .characters-page {
+    padding: 2rem 1rem;
+  }
+  
+  .wow-page-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary);
+  }
+  
+  .wow-page-header h1 {
+    margin: 1rem;
+    color: var(--primary);
+  }
+  
+  .character-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .character-actions button,
+  .character-actions a[role="button"] {
+    margin: 0;
+    color: var(--primary);
+    background-color: var(--primary-focus);
+    border-color: var(--primary);
+  }
+  
+  /* Grille de personnages */
   .character-grid {
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 2rem;
   }
-}
-
-@media (max-width: 480px) {
-  .auth-title {
-    font-size: 1.75rem;
+  
+  /* État vide */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    margin: 2rem auto;
+    max-width: 80%;
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 41, 55, 0.95),
+      rgba(17, 24, 39, 0.95)
+    );
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    box-shadow: var(--main-shadow);
+    display: block;
+    position: relative;
+    clear: both;
   }
-
-  .auth-container {
+  
+  /* Cards de chargement et d'erreur */
+  .loading-card,
+  .error-card {
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 41, 55, 0.95),
+      rgba(17, 24, 39, 0.95)
+    );
+    margin: 1rem auto;
+    max-width: 80%;
+    border-radius: 8px;
+  }
+  
+  .loading-card {
+    border: 1px solid var(--primary);
+  }
+  
+  .error-card {
+    border: 1px solid var(--del-color);
+    color: var(--del-color);
+  }
+  
+  /* ======================================
+     6. CARTES DE PERSONNAGE
+     ====================================== */
+  
+  .character-card {
+    background: var(--card-gradient);
+    border: 2px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 1.5rem;
+    border-radius: 8px;
   }
-}
+  
+  .character-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .character-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--corner-decoration);
+    background-position: top left, top right, bottom left, bottom right;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  .character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+  }
+  
+  .character-card:hover::before {
+    opacity: 1;
+  }
+  
+  /* En-tête de la carte */
+  .character-info {
+    position: relative;
+    padding: 0.5rem;
+    background: linear-gradient(90deg, var(--wow-gold-light), transparent 50%);
+    border-left: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .character-info h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--primary);
+    text-shadow: var(--gold-text-shadow);
+  }
+  
+  .character-level {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(
+      45deg,
+      var(--wow-gold-medium),
+      var(--wow-gold-light)
+    );
+    border: 1px solid rgba(248, 183, 0, 0.3);
+    border-radius: 3px;
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    margin-top: 0.25rem;
+  }
+  
+  /* Détails du personnage */
+  .character-details {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 3px solid var(--wow-gold-medium);
+  }
+  
+  .character-details p {
+    margin: 0.5rem 0;
+    color: #ebdec2;
+    font-size: 0.95rem;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    opacity: 0.9;
+  }
+  
+  .character-card footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--wow-gold-light);
+  }
+  
+  .character-action-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+  
+  .edit-btn {
+    background: linear-gradient(
+      45deg,
+      var(--wow-gold-light),
+      var(--wow-gold-medium)
+    );
+    border-color: rgba(248, 183, 0, 0.4);
+    color: var(--primary);
+  }
+  
+  .delete-btn {
+    background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.2));
+    border-color: rgba(255, 0, 0, 0.4);
+    color: #ff4444;
+    text-align: center;
+  }
+  
+  .edit-btn:hover,
+  .delete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.2);
+  }
+  
+  /* ======================================
+     7. FACTIONS (ALLIANCE/HORDE)
+     ====================================== */
+  
+  /* Styles pour l'affichage des factions */
+  .alliance-card {
+    border-color: var(--alliance-blue);
+    background: linear-gradient(135deg, var(--alliance-blue-light), rgba(31, 41, 55, 0.97));
+  }
+  
+  .alliance-card::after {
+    background-image: linear-gradient(45deg, var(--alliance-blue) 0%, transparent 2%),
+      linear-gradient(-45deg, var(--alliance-blue) 0%, transparent 2%),
+      linear-gradient(135deg, var(--alliance-blue) 0%, transparent 2%),
+      linear-gradient(-135deg, var(--alliance-blue) 0%, transparent 2%);
+  }
+  
+  .horde-card {
+    border-color: var(--horde-red);
+    background: linear-gradient(135deg, var(--horde-red-light), rgba(31, 41, 55, 0.97));
+  }
+  
+  .horde-card::after {
+    background-image: linear-gradient(45deg, var(--horde-red) 0%, transparent 2%),
+      linear-gradient(-45deg, var(--horde-red) 0%, transparent 2%),
+      linear-gradient(135deg, var(--horde-red) 0%, transparent 2%),
+      linear-gradient(-135deg, var(--horde-red) 0%, transparent 2%);
+  }
+  
+  /* Badges de faction */
+  .faction-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.825rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  
+  .alliance-badge {
+    background-color: var(--alliance-blue-medium);
+    color: var(--alliance-blue);
+    border: 1px solid var(--alliance-blue-border);
+  }
+  
+  .horde-badge {
+    background-color: var(--horde-red-medium);
+    color: #ff4444;
+    border: 1px solid var(--horde-red-border);
+  }
+  
+  .neutral-badge {
+    background-color: rgba(200, 200, 200, 0.2);
+    color: #cccccc;
+    border: 1px solid rgba(200, 200, 200, 0.4);
+  }
+  
+  /* Styles pour les boutons de faction */
+  .faction-selector {
+    margin-bottom: 1rem;
+  }
+  
+  .faction-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .faction-buttons button {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+  }
+  
+  .alliance-button {
+    background-color: var(--alliance-blue-light);
+    color: var(--alliance-blue);
+    border-color: var(--alliance-blue-medium);
+  }
+  
+  .alliance-button:hover, .alliance-button.selected {
+    background-color: var(--alliance-blue-medium);
+    border-color: var(--alliance-blue);
+    box-shadow: 0 0 10px rgba(0, 120, 255, 0.2);
+  }
+  
+  .horde-button {
+    background-color: var(--horde-red-light);
+    color: var(--horde-red);
+    border-color: var(--horde-red-medium);
+  }
+  
+  .horde-button:hover, .horde-button.selected {
+    background-color: var(--horde-red-medium);
+    border-color: var(--horde-red);
+    box-shadow: 0 0 10px rgba(179, 0, 0, 0.2);
+  }
+  
+  .neutral-button {
+    background-color: var(--neutral-gray-light);
+    color: var(--neutral-gray);
+    border-color: var(--neutral-gray-border);
+  }
+  
+  .neutral-button:hover, .neutral-button.selected {
+    background-color: var(--neutral-gray-medium);
+    border-color: var(--neutral-gray);
+    box-shadow: 0 0 10px rgba(150, 150, 150, 0.2);
+  }
+  
+  /* ======================================
+     8. PAGE D'ACCUEIL
+     ====================================== */
+  
+  .home-page {
+    padding: 0;
+    color: var(--color);
+  }
+  
+  /* Section Hero */
+  .hero-section {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 41, 55, 0.95),
+      rgba(17, 24, 39, 0.95)
+    );
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--primary);
+  }
+  
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://cdnb.artstation.com/p/assets/images/images/018/662/798/large/sergey-glushakov-bg-art.jpg?1560274006');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: -1;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-shadow: var(--gold-text-shadow);
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+  
+  .hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    color: black;
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .hero-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-hover);
+  }
+  
+  .icon {
+    font-size: 1.4rem;
+  }
+  
+  /* Section des fonctionnalités */
+  .features-section {
+    padding: 4rem 2rem;
+    background-color: var(--background-color);
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    background: var(--card-gradient);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .feature-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--corner-decoration);
+    background-position: top left, top right, bottom left, bottom right;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+  }
+  
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  
+  .feature-title {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  }
+  
+  .feature-description {
+    color: var(--color);
+    line-height: 1.6;
+  }
+  
+  /* Section des classes */
+  .classes-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(
+      to bottom,
+      var(--background-color),
+      rgba(17, 24, 39, 0.95)
+    );
+    text-align: center;
+  }
+  
+  .section-title {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  }
+  
+  .classes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .class-tag {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .class-tag:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Couleurs spécifiques pour chaque classe */
+  .warrior { color: var(--warrior-color); border-color: rgba(199, 156, 110, 0.5); }
+  .paladin { color: var(--paladin-color); border-color: rgba(245, 140, 186, 0.5); }
+  .hunter { color: var(--hunter-color); border-color: rgba(171, 212, 115, 0.5); }
+  .rogue { color: var(--rogue-color); border-color: rgba(255, 245, 105, 0.5); }
+  .priest { color: var(--priest-color); border-color: rgba(255, 255, 255, 0.5); }
+  .deathknight { color: var(--deathknight-color); border-color: rgba(196, 31, 59, 0.5); }
+  .shaman { color: var(--shaman-color); border-color: rgba(0, 112, 222, 0.5); }
+  .mage { color: var(--mage-color); border-color: rgba(105, 204, 240, 0.5); }
+  .warlock { color: var(--warlock-color); border-color: rgba(148, 130, 201, 0.5); }
+  .monk { color: var(--monk-color); border-color: rgba(0, 255, 150, 0.5); }
+  .druid { color: var(--druid-color); border-color: rgba(255, 125, 10, 0.5); }
+  .demonhunter { color: var(--demonhunter-color); border-color: rgba(163, 48, 201, 0.5); }
+  .evoker { color: var(--evoker-color); border-color: rgba(51, 147, 127, 0.5); }
+  
+  /* ======================================
+     9. MODALES & DIALOGS
+     ====================================== */
+  
+  /* Style pour les modales */
+  dialog {
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 41, 55, 0.98),
+      rgba(17, 24, 39, 0.98)
+    );
+    border: 1px solid #3d434f;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  }
+  
+  dialog article {
+    margin: 0;
+    padding: 2rem;
+    max-width: 500px;
+  }
+  
+  dialog header {
+    margin: -2rem -2rem 2rem -2rem;
+    padding: 1.5rem 2rem;
+    background-color: rgba(31, 41, 55, 0.95);
+    border-bottom: 1px solid var(--primary);
+  }
+  
+  dialog header h3 {
+    margin: 0;
+    color: var(--primary);
+    text-shadow: var(--gold-text-shadow);
+  }
+  
+  dialog footer {
+    margin: 2rem -2rem -2rem -2rem;
+    padding: 1.5rem 2rem;
+    background-color: rgba(31, 41, 55, 0.95);
+    border-top: 1px solid var(--muted-color);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+  
+  dialog footer button {
+    margin: 0;
+  }
+  
+  /* Style amélioré pour le modal de filtres */
+  dialog article::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--corner-decoration);
+    background-position: top left, top right, bottom left, bottom right;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  /* Styles pour la boîte de dialogue de déconnexion */
+  .logout-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  .logout-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+  }
+  
+  .form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .form-buttons button {
+    flex: 1;
+  }
+  
+  /* Styles pour formulaires */
+  .grid {
+    margin-bottom: 2rem;
+  }
+  
+  .grid label {
+    margin-bottom: 1.5rem;
+  }
+  
+  .grid input,
+  .grid select {
+    background: var(--card-gradient);
+    border: 2px solid var(--primary);
+    color: var(--color);
+  }
+  
+  .grid input:focus,
+  .grid select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--wow-gold-light);
+  }
+  
+  /* ======================================
+     10. MEDIA QUERIES
+     ====================================== */
+  
+  /* Mobile */
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Valeur minimale plus raisonnable */
+      gap: 2rem; /* Ajoute plus d'espace entre les éléments */
+      max-width: 1200px; /* Limite la largeur maximale */
+      margin: 0 auto; /* Centre la grille */
+    }
+    
+    /* Pour votre classe character-grid si elle est différente */
+    .character-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    /* Header & Navigation */
+    .header-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .wow-logo {
+      margin: 0.5rem;
+      text-align: center;
+    }
+    
+    .nav-menu {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .nav-menu li {
+      margin: 0.5rem 0;
+      width: 100%;
+      text-align: center;
+    }
+    
+    /* Page layouts */
+    .wow-page-header {
+      padding: 1rem 0;
+    }
+    
+    .character-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .character-actions button,
+    .character-actions a[role="button"] {
+      width: 100%;
+      text-align: center;
+    }
+    
+    /* Character grid */
+    .character-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    /* Auth container */
+    .auth-container-wrapper {
+      max-width: 450px;
+    }
+    
+    .auth-container {
+      padding: 2.5rem;
+    }
+    
+    .auth-title {
+      font-size: 2.5rem;
+    }
+    
+    .auth-toggle-buttons {
+      max-width: 350px;
+    }
+    
+    /* Form buttons */
+    .form-buttons {
+      flex-direction: column;
+    }
+    
+    .form-buttons button {
+      width: 100%;
+    }
+    
+    /* Mobile navigation */
+    .mobile-nav {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-areas: "burger logo";
+      align-items: center;
+      padding: 1rem;
+      background-color: var(--background-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .mobile-menu-toggle {
+      grid-area: burger;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1000;
+    }
+    
+    .wow-logo {
+      display: block;
+      justify-items: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: var(--primary);
+    }
+    
+    .mobile-menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--primary);
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+    
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(21, 23, 30, 0.98);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: 0.3s;
+      z-index: 100;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-menu.is-open {
+      left: 0;
+    }
+    
+    .nav-menu li {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .nav-menu a,
+    .nav-menu button {
+      font-size: 1.5rem;
+      color: var(--color);
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    /* Animation du burger quand ouvert */
+    .mobile-menu-toggle.is-open span:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .mobile-menu-toggle.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .mobile-menu-toggle.is-open span:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Homepage responsiveness */
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .hero-description {
+      font-size: 1rem;
+    }
+    
+    .classes-grid {
+      padding: 0 1rem;
+    }
+    
+    .class-tag {
+      font-size: 0.8rem;
+    }
+  }
+  
+  /* Desktop */
+  @media (min-width: 769px) {
+    .mobile-nav,
+    .mobile-menu-toggle {
+      display: none;
+    }
+    
+    .wow-header .container-fluid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .nav-menu {
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .nav-menu li {
+      margin: 0 0 0 1.5rem;
+    }
+    
+    .nav-menu a,
+    .nav-menu button {
+      font-size: 1rem;
+      color: var(--primary);
+    }
+    
+    /* Ajustement de la grille sur desktop */
+    .character-grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+  }
+  
+  /* Small screens */
+  @media (max-width: 480px) {
+    .auth-title {
+      font-size: 1.75rem;
+    }
+    
+    .auth-container {
+      padding: 1.5rem;
+    }
+    
+    .feature-card {
+      padding: 1.5rem;
+    }
+    
+    .hero-button {
+      font-size: 1rem;
+      padding: 0.6rem 1.5rem;
+    }
+  }

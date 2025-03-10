@@ -36,7 +36,7 @@ const read: RequestHandler = async (req: AuthRequest, res, next) => {
 
 const add: RequestHandler = async (req: AuthRequest, res, next) => {
   try {
-    const { name, class_id, level, server_id } = req.body;
+    const { name, class_id, race_id, level, server_id } = req.body;
     console.log(req.userId);
     if (!req.userId) {
       res.sendStatus(401);
@@ -45,6 +45,7 @@ const add: RequestHandler = async (req: AuthRequest, res, next) => {
     const id = await charactersRepository.create({
       name,
       class_id,
+      race_id,
       level,
       server_id,
       user_id: req.userId,
@@ -57,7 +58,7 @@ const add: RequestHandler = async (req: AuthRequest, res, next) => {
 
 const update: RequestHandler = async (req: AuthRequest, res, next) => {
   try {
-    const { id, name, class_id, level, server_id } = req.body;
+    const { id, name, class_id, race_id, level, server_id } = req.body;
     if (!req.userId) {
       res.sendStatus(401);
       return;
@@ -66,6 +67,7 @@ const update: RequestHandler = async (req: AuthRequest, res, next) => {
       id,
       name,
       class_id,
+      race_id,
       level,
       server_id,
       user_id: req.userId,
